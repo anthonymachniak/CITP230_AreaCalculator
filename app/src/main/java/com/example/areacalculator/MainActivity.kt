@@ -2,11 +2,12 @@ package com.example.areacalculator
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.util.Log
+import android.widget.*
 import androidx.core.view.isVisible
+
+private const val TAG = "MainActivity"
+private var orientation : Int ?= null
 
 class MainActivity : AppCompatActivity() {
     private var calculate: Button ?= null
@@ -17,6 +18,8 @@ class MainActivity : AppCompatActivity() {
     private var carpetImage: ImageView?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        orientation = resources.configuration.orientation
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -53,5 +56,50 @@ class MainActivity : AppCompatActivity() {
 
             result?.isVisible = true
         }
+    }
+
+    fun logAction(message: String) {
+        var orientationString = if(orientation == 1) "Portrait" else "Landscape"
+
+        var logMessage = "$message; $orientationString"
+
+        Log.d(TAG, logMessage)
+
+        toastMessage(logMessage)
+    }
+
+    fun toastMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onRestart() {
+        orientation = resources.configuration.orientation
+        logAction("onRestart")
+        super.onRestart()
+    }
+
+    override fun onStart() {
+        logAction("onStart")
+        super.onStart()
+    }
+
+    override fun onResume() {
+        logAction("onResume")
+        super.onResume()
+    }
+
+    override fun onPause() {
+        logAction("onPause")
+        super.onPause()
+    }
+
+    override fun onStop() {
+        logAction("onStop")
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        logAction("onDestroy")
+        super.onDestroy()
     }
 }
